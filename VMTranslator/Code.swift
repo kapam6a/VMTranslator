@@ -36,7 +36,7 @@ final class Code {
     }
 }
 
-extension Code {
+private extension Code {
 
     func generateAdd() -> String {
         "@SP".addNewLine() +

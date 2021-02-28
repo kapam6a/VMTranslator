@@ -67,15 +67,16 @@ extension Code {
     }
 
     func generateEq() -> String {
+        generateSub() +
         ""
     }
 
     func generateGt() -> String {
-        ""
+        generateSub()
     }
 
     func generateLt() -> String {
-        ""
+        generateSub()
     }
 
     func generateAnd() -> String {
@@ -107,10 +108,31 @@ extension Code {
     }
 
     func generatePop(_ segment: String, _ index: Int) -> String {
-        ""
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() + // Put i into register D
+        "@\(segment))".addNewLine() +
+        "A=D+M".addNewLine() + // Calculate memory address of i and select this memory
+        "D=A".addNewLine() + // Put memory address into D register
+        "@addr".addNewLine() + // Define new variable
+        "M=D".addNewLine() + // Put address of local variable into new variable
+        "@SP".addNewLine() +
+        "AM=M-1".addNewLine() + // Decrease stack pointer and put value into register new value into register A and variable SP
+        "D=M".addNewLine() + // Put value from stack into register D
+        "@addr".addNewLine() +
+        "A=M".addNewLine() + // Select saved address
+        "M=D".addNewLine() // write value into memory
     }
 
     func generatePush(_ segment: String, _ index: Int) -> String {
-        ""
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() + // Put i into register D
+        "@\(segment))".addNewLine() +
+        "A=D+M".addNewLine() + // Calculate memory address of i and select this memory
+        "D=M".addNewLine() + // Put value of selected variable into D register
+        "@SP".addNewLine() +
+        "A=M".addNewLine() +
+        "M=D".addNewLine() + // Put selected variable into stack
+        "@SP".addNewLine() +
+        "M=M+1".addNewLine() // Increase stack
     }
 }

@@ -30,8 +30,8 @@ private extension VMTranslator {
     func generateCode() -> String {
         switch parser.commandType() {
         case .c_arithmetic: return code.arithmetic(parser.arg1())
-        case .c_push: return code.pushPop(.c_push, parser.arg1(), parser.arg2())
-        case .c_pop: return code.pushPop(.c_pop, parser.arg1(), parser.arg2())
+        case .c_push: return code.push(parser.arg1(), parser.arg2())
+        case .c_pop: return code.pop(parser.arg1(), parser.arg2())
         case .c_label: return ""
         case .c_goto: return ""
         case .c_if: return ""

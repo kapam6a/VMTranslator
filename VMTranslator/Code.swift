@@ -19,7 +19,7 @@ final class Code {
         case "and": return generateAnd()
         case "or": return generateOr()
         case "not": return generateNot()
-        default: return "----"
+        default: return "--wrongArithmeticCommand--"
         }
     }
 
@@ -30,7 +30,7 @@ final class Code {
     func pop(_ segment: String, _ index: Int) -> String {
         "@\(index)".addNewLine() +
         "D=A".addNewLine() + // Put i into register D
-        "@\(segment)".addNewLine() +
+        "@\(generateSegment(segment))".addNewLine() +
         "A=D+M".addNewLine() + // Calculate memory address of i and select this memory
         "D=A".addNewLine() + // Put memory address into D register
         "@addr".addNewLine() + // Define new variable
@@ -46,7 +46,7 @@ final class Code {
     func push(_ segment: String, _ index: Int) -> String {
         "@\(index)".addNewLine() +
         "D=A".addNewLine() + // Put i into register D
-        "@\(segment)".addNewLine() +
+        "@\(generateSegment(segment))".addNewLine() +
         "A=D+M".addNewLine() + // Calculate memory address of i and select this memory
         "D=M".addNewLine() + // Put value of selected variable into D register
         "@SP".addNewLine() +
@@ -158,5 +158,15 @@ private extension Code {
         "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=!M".addNewLine()
+    }
+
+    func generateSegment(_ value: String) -> String {
+        switch value {
+        case "local": return "LCL"
+        case "argument": return "ARG"
+        case "this": return "THIS"
+        case "that": return "THAT"
+        default: return "--wrongSegmentName--"
+        }
     }
 }

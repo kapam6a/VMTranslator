@@ -4,6 +4,12 @@
 //
 
 final class Code {
+    
+    private let prefix: String
+    
+    init(_ prefix: String) {
+        self.prefix = prefix
+    }
 
     /*
      Writes to the output file the assembly code that implemetns the given arithmetic command.
@@ -28,32 +34,28 @@ final class Code {
      where command is either c_push or c_pop.
      */
     func pop(_ segment: String, _ index: Int) -> String {
-        "@\(index)".addNewLine() +
-        "D=A".addNewLine() + // Put i into register D
-        "@\(generateSegment(segment))".addNewLine() +
-        "A=D+M".addNewLine() + // Calculate memory address of i and select this memory
-        "D=A".addNewLine() + // Put memory address into D register
-        "@addr".addNewLine() + // Define new variable
-        "M=D".addNewLine() + // Put address of local variable into new variable
-        "@SP".addNewLine() +
-        "AM=M-1".addNewLine() + // Decrease stack pointer and put value into register new value into register A and variable SP
-        "D=M".addNewLine() + // Put value from stack into register D
-        "@addr".addNewLine() +
-        "A=M".addNewLine() + // Select saved address
-        "M=D".addNewLine() // write value into memory
+        switch segment {
+        case "local": return generatePopLocal(index)
+        case "argument": return generatePopArgument(index)
+        case "this": return generatePopThis(index)
+        case "that": return generatePopThat(index)
+        case "temp": return generatePopTemp(index)
+        case "static": return generatePopStatic(index)
+        default: return "--wrongPopCommand--"
+        }
     }
     
     func push(_ segment: String, _ index: Int) -> String {
-        "@\(index)".addNewLine() +
-        "D=A".addNewLine() + // Put i into register D
-        "@\(generateSegment(segment))".addNewLine() +
-        "A=D+M".addNewLine() + // Calculate memory address of i and select this memory
-        "D=M".addNewLine() + // Put value of selected variable into D register
-        "@SP".addNewLine() +
-        "A=M".addNewLine() +
-        "M=D".addNewLine() + // Put selected variable into stack
-        "@SP".addNewLine() +
-        "M=M+1".addNewLine() // Increase stack
+        switch segment {
+        case "local": return generatePushLocal(index)
+        case "argument": return generatePushArgument(index)
+        case "this": return generatePushThis(index)
+        case "that": return generatePushThat(index)
+        case "constant": return generatePushConstant(index)
+        case "temp": return generatePushTemp(index)
+        case "static": return generatePushStatic(index)
+        default: return "--wrongPushCommand--"
+        }
     }
 }
 
@@ -159,14 +161,126 @@ private extension Code {
         "A=M-1".addNewLine() +
         "M=!M".addNewLine()
     }
-
-    func generateSegment(_ value: String) -> String {
-        switch value {
-        case "local": return "LCL"
-        case "argument": return "ARG"
-        case "this": return "THIS"
-        case "that": return "THAT"
-        default: return "--wrongSegmentName--"
-        }
+    
+    func generatePopLocal(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@LCL".addNewLine() +
+        "A=D+M".addNewLine() +
+        generatePop()
+    }
+    
+    func generatePopArgument(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@ARG".addNewLine() +
+        "A=D+M".addNewLine() +
+        generatePop()
+    }
+    
+    func generatePopThis(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@THIS".addNewLine() +
+        "A=D+M".addNewLine() +
+        generatePop()
+    }
+    
+    func generatePopThat(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@THAT".addNewLine() +
+        "A=D+M".addNewLine() +
+        generatePop()
+    }
+    
+    func generatePopTemp(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@R5".addNewLine() +
+        "A=D+A".addNewLine() +
+        generatePop()
+    }
+    
+    func generatePopStatic(_ index: Int) -> String {
+        "@\(prefix)" + "." + "\(index)".addNewLine() +
+        generatePop()
+    }
+    
+    func generatePop() -> String {
+        "D=A".addNewLine() +
+        "@addr".addNewLine() +
+        "M=D".addNewLine() +
+        "@SP".addNewLine() +
+        "AM=M-1".addNewLine() +
+        "D=M".addNewLine() +
+        "@addr".addNewLine() +
+        "A=M".addNewLine() +
+        "M=D".addNewLine()
+    }
+    
+    func generatePushLocal(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@LCL".addNewLine() +
+        "A=D+M".addNewLine() +
+        "D=M".addNewLine() +
+        generatePush()
+    }
+    
+    func generatePushArgument(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@ARG".addNewLine() +
+        "A=D+M".addNewLine() +
+        "D=M".addNewLine() +
+        generatePush()
+    }
+    
+    func generatePushThis(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@THIS".addNewLine() +
+        "A=D+M".addNewLine() +
+        "D=M".addNewLine() +
+        generatePush()
+    }
+    
+    func generatePushThat(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@THAT".addNewLine() +
+        "A=D+M".addNewLine() +
+        "D=M".addNewLine() +
+        generatePush()
+    }
+    
+    func generatePushConstant(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        generatePush()
+    }
+    
+    func generatePushTemp(_ index: Int) -> String {
+        "@\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        "@R5".addNewLine() +
+        "A=D+A".addNewLine() +
+        "D=M".addNewLine() +
+        generatePush()
+    }
+    
+    func generatePushStatic(_ index: Int) -> String {
+        "@\(prefix)" + "." + "\(index)".addNewLine() +
+        "D=A".addNewLine() +
+        generatePush()
+    }
+    
+    func generatePush() -> String {
+        "@SP".addNewLine() +
+        "A=M".addNewLine() +
+        "M=D".addNewLine() + // Put selected variable into stack
+        "@SP".addNewLine() +
+        "M=M+1".addNewLine() // Increase stack
     }
 }

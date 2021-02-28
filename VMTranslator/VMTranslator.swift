@@ -10,9 +10,9 @@ final class VMTranslator {
     private let code: Code
     private let parser: Parser
 
-    init(_ source: String) {
+    init(_ source: String, _ preFix: String) {
         self.parser = Parser(source)
-        self.code = Code()
+        self.code = Code(preFix)
     }
 
     func translate() -> String {

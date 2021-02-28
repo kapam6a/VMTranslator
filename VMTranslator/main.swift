@@ -17,7 +17,7 @@ let writeFileName = fileName + ".asm"
 
 do {
     let content = try FileService(fileName: readFileName).read()
-    let result = VMTranslator(content).translate()
+    let result = VMTranslator(content, fileName).translate()
     try FileService(fileName: writeFileName).write(text: result)
     print(result)
 } catch let error as FileServiceError {

@@ -40,22 +40,16 @@ private extension Code {
 
     func generateAdd() -> String {
         "@SP".addNewLine() +
-        "M=M-1".addNewLine() +
-        "@SP".addNewLine() +
-        "A=M".addNewLine() +
+        "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=M+D".addNewLine()
     }
 
     func generateSub() -> String {
         "@SP".addNewLine() +
-        "M=M-1".addNewLine() +
-        "@SP".addNewLine() +
-        "A=M".addNewLine() +
+        "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=M-D".addNewLine()
     }
@@ -81,22 +75,16 @@ private extension Code {
 
     func generateAnd() -> String {
         "@SP".addNewLine() +
-        "M=M-1".addNewLine() +
-        "@SP".addNewLine() +
-        "A=M".addNewLine() +
+        "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=D&M".addNewLine()
     }
 
     func generateOr() -> String {
         "@SP".addNewLine() +
-        "M=M-1".addNewLine() +
-        "@SP".addNewLine() +
-        "A=M".addNewLine() +
+        "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=D|M".addNewLine()
     }
@@ -110,7 +98,7 @@ private extension Code {
     func generatePop(_ segment: String, _ index: Int) -> String {
         "@\(index)".addNewLine() +
         "D=A".addNewLine() + // Put i into register D
-        "@\(segment))".addNewLine() +
+        "@\(segment)".addNewLine() +
         "A=D+M".addNewLine() + // Calculate memory address of i and select this memory
         "D=A".addNewLine() + // Put memory address into D register
         "@addr".addNewLine() + // Define new variable
@@ -126,7 +114,7 @@ private extension Code {
     func generatePush(_ segment: String, _ index: Int) -> String {
         "@\(index)".addNewLine() +
         "D=A".addNewLine() + // Put i into register D
-        "@\(segment))".addNewLine() +
+        "@\(segment)".addNewLine() +
         "A=D+M".addNewLine() + // Calculate memory address of i and select this memory
         "D=M".addNewLine() + // Put value of selected variable into D register
         "@SP".addNewLine() +

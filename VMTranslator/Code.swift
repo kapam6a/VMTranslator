@@ -6,6 +6,7 @@
 final class Code {
     
     private let prefix: String
+    private var equalBlockUniqueId: Int = 0
     
     init(_ prefix: String) {
         self.prefix = prefix
@@ -15,6 +16,7 @@ final class Code {
      Writes to the output file the assembly code that implemetns the given arithmetic command.
      */
     func arithmetic(_ value: String) -> String {
+        equalBlockUniqueId += 1
         switch value {
         case "add": return generateAdd()
         case "sub": return generateSub()
@@ -89,14 +91,14 @@ private extension Code {
         "D=M".addNewLine() +
         "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
-        "@EQUAL_TRUE".addNewLine() +
+        "@EQUAL_TRUE_\(equalBlockUniqueId)".addNewLine() +
         "D;JEQ".addNewLine() +
         "D=0".addNewLine() +
-        "@END_EQUAL".addNewLine() +
+        "@END_EQUAL_\(equalBlockUniqueId)".addNewLine() +
         "0;JMP".addNewLine() +
-        "(EQUAL_TRUE)".addNewLine() +
+        "(EQUAL_TRUE_\(equalBlockUniqueId))".addNewLine() +
         "D=-1".addNewLine() +
-        "(END_EQUAL)".addNewLine() +
+        "(END_EQUAL_\(equalBlockUniqueId))".addNewLine() +
         "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=D".addNewLine()
@@ -108,14 +110,14 @@ private extension Code {
         "D=M".addNewLine() +
         "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
-        "@GREATER_TRUE".addNewLine() +
+        "@GREATER_TRUE_\(equalBlockUniqueId)".addNewLine() +
         "D;JGT".addNewLine() +
         "D=0".addNewLine() +
-        "@END_GREATER".addNewLine() +
+        "@END_GREATER_\(equalBlockUniqueId)".addNewLine() +
         "0;JMP".addNewLine() +
-        "(GREATER_TRUE)".addNewLine() +
+        "(GREATER_TRUE_\(equalBlockUniqueId))".addNewLine() +
         "D=-1".addNewLine() +
-        "(END_GREATER)".addNewLine() +
+        "(END_GREATER_\(equalBlockUniqueId))".addNewLine() +
         "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=D".addNewLine()
@@ -127,14 +129,14 @@ private extension Code {
         "D=M".addNewLine() +
         "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
-        "@LESS_TRUE".addNewLine() +
+        "@LESS_TRUE_\(equalBlockUniqueId)".addNewLine() +
         "D;JLT".addNewLine() +
         "D=0".addNewLine() +
-        "@END_LESS".addNewLine() +
+        "@END_LESS_\(equalBlockUniqueId)".addNewLine() +
         "0;JMP".addNewLine() +
-        "(LESS_TRUE)".addNewLine() +
+        "(LESS_TRUE_\(equalBlockUniqueId))".addNewLine() +
         "D=-1".addNewLine() +
-        "(END_LESS)".addNewLine() +
+        "(END_LESS_\(equalBlockUniqueId))".addNewLine() +
         "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=D".addNewLine()
@@ -279,8 +281,8 @@ private extension Code {
     func generatePush() -> String {
         "@SP".addNewLine() +
         "A=M".addNewLine() +
-        "M=D".addNewLine() + // Put selected variable into stack
+        "M=D".addNewLine() +
         "@SP".addNewLine() +
-        "M=M+1".addNewLine() // Increase stack
+        "M=M+1".addNewLine()
     }
 }

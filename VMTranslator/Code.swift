@@ -239,12 +239,12 @@ private extension Code {
     
     func generatePop() -> String {
         "D=A".addNewLine() +
-        "@addr".addNewLine() +
+        "@R13".addNewLine() +
         "M=D".addNewLine() +
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "@addr".addNewLine() +
+        "@R13".addNewLine() +
         "A=M".addNewLine() +
         "M=D".addNewLine()
     }

@@ -43,6 +43,7 @@ final class Code {
         case "that": return generatePopThat(index)
         case "temp": return generatePopTemp(index)
         case "static": return generatePopStatic(index)
+        case "pointer": return generatePopPointer(index)
         default: return "--wrongPopCommand--"
         }
     }
@@ -56,12 +57,15 @@ final class Code {
         case "constant": return generatePushConstant(index)
         case "temp": return generatePushTemp(index)
         case "static": return generatePushStatic(index)
+        case "pointer": return generatePushPointer(index)
         default: return "--wrongPushCommand--"
         }
     }
 }
 
 private extension Code {
+
+    // MARK: Arithmetic
 
     func generateAdd() -> String {
         "@SP".addNewLine() +
@@ -163,6 +167,8 @@ private extension Code {
         "A=M-1".addNewLine() +
         "M=!M".addNewLine()
     }
+
+    // MARK: Pop
     
     func generatePopLocal(_ index: Int) -> String {
         "@\(index)".addNewLine() +
@@ -208,6 +214,28 @@ private extension Code {
         "@\(prefix)" + "." + "\(index)".addNewLine() +
         generatePop()
     }
+
+    func generatePopPointer(_ index: Int) -> String {
+        switch index {
+        case 0: return generatePopPointerThis()
+        case 1: return generatePopPointerThat()
+        default: return "--wrongPopPointerIndex--"
+        }
+    }
+
+    func generatePopPointerThis() -> String {
+        "@THIS".addNewLine() +
+        "A=M".addNewLine() +
+        "D=M".addNewLine() +
+        generatePop()
+    }
+
+    func generatePopPointerThat() -> String {
+        "@THAT".addNewLine() +
+        "A=M".addNewLine() +
+        "D=M".addNewLine() +
+        generatePop()
+    }
     
     func generatePop() -> String {
         "D=A".addNewLine() +
@@ -220,6 +248,8 @@ private extension Code {
         "A=M".addNewLine() +
         "M=D".addNewLine()
     }
+
+    // MARK: Push
     
     func generatePushLocal(_ index: Int) -> String {
         "@\(index)".addNewLine() +
@@ -275,6 +305,28 @@ private extension Code {
     func generatePushStatic(_ index: Int) -> String {
         "@\(prefix)" + "." + "\(index)".addNewLine() +
         "D=A".addNewLine() +
+        generatePush()
+    }
+
+    func generatePushPointer(_ index: Int) -> String {
+        switch index {
+        case 0: return generatePushPointerThis()
+        case 1: return generatePushPointerThat()
+        default: return "--wrongPushPointerIndex--"
+        }
+    }
+
+    func generatePushPointerThis() -> String {
+        "@THIS".addNewLine() +
+        "A=M".addNewLine() +
+        "D=M".addNewLine() +
+        generatePush()
+    }
+
+    func generatePushPointerThat() -> String {
+        "@THAT".addNewLine() +
+        "A=M".addNewLine() +
+        "D=M".addNewLine() +
         generatePush()
     }
     

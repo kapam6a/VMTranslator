@@ -3,11 +3,12 @@
 //  VMTranslator
 //
 
+import Foundation
+
 final class Code {
     
     private let prefix: String
-    private var equalBlockUniqueId: Int = 0
-    
+
     init(_ prefix: String) {
         self.prefix = prefix
     }
@@ -16,7 +17,6 @@ final class Code {
      Writes to the output file the assembly code that implemetns the given arithmetic command.
      */
     func arithmetic(_ value: String) -> String {
-        equalBlockUniqueId += 1
         switch value {
         case "add": return generateAdd()
         case "sub": return generateSub()
@@ -85,58 +85,58 @@ private extension Code {
         "M=-M".addNewLine()
     }
 
-    func generateEq() -> String {
+    func generateEq(_ id: String = UUID().uuidString) -> String {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
         "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
-        "@EQUAL_TRUE_\(equalBlockUniqueId)".addNewLine() +
+        "@EQUAL_TRUE_\(id)".addNewLine() +
         "D;JEQ".addNewLine() +
         "D=0".addNewLine() +
-        "@END_EQUAL_\(equalBlockUniqueId)".addNewLine() +
+        "@END_EQUAL_\(id)".addNewLine() +
         "0;JMP".addNewLine() +
-        "(EQUAL_TRUE_\(equalBlockUniqueId))".addNewLine() +
+        "(EQUAL_TRUE_\(id))".addNewLine() +
         "D=-1".addNewLine() +
-        "(END_EQUAL_\(equalBlockUniqueId))".addNewLine() +
+        "(END_EQUAL_\(id))".addNewLine() +
         "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=D".addNewLine()
     }
 
-    func generateGt() -> String {
+    func generateGt(_ id: String = UUID().uuidString) -> String {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
         "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
-        "@GREATER_TRUE_\(equalBlockUniqueId)".addNewLine() +
+        "@GREATER_TRUE_\(id)".addNewLine() +
         "D;JGT".addNewLine() +
         "D=0".addNewLine() +
-        "@END_GREATER_\(equalBlockUniqueId)".addNewLine() +
+        "@END_GREATER_\(id)".addNewLine() +
         "0;JMP".addNewLine() +
-        "(GREATER_TRUE_\(equalBlockUniqueId))".addNewLine() +
+        "(GREATER_TRUE_\(id))".addNewLine() +
         "D=-1".addNewLine() +
-        "(END_GREATER_\(equalBlockUniqueId))".addNewLine() +
+        "(END_GREATER_\(id))".addNewLine() +
         "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=D".addNewLine()
     }
 
-    func generateLt() -> String {
+    func generateLt(_ id: String = UUID().uuidString) -> String {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
         "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
-        "@LESS_TRUE_\(equalBlockUniqueId)".addNewLine() +
+        "@LESS_TRUE_\(id)".addNewLine() +
         "D;JLT".addNewLine() +
         "D=0".addNewLine() +
-        "@END_LESS_\(equalBlockUniqueId)".addNewLine() +
+        "@END_LESS_\(id)".addNewLine() +
         "0;JMP".addNewLine() +
-        "(LESS_TRUE_\(equalBlockUniqueId))".addNewLine() +
+        "(LESS_TRUE_\(id))".addNewLine() +
         "D=-1".addNewLine() +
-        "(END_LESS_\(equalBlockUniqueId))".addNewLine() +
+        "(END_LESS_\(id))".addNewLine() +
         "@SP".addNewLine() +
         "A=M-1".addNewLine() +
         "M=D".addNewLine()

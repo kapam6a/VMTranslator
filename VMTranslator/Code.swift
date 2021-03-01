@@ -65,7 +65,7 @@ private extension Code {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "A=M-1".addNewLine() +
+        "A=A-1".addNewLine() +
         "M=M+D".addNewLine()
     }
 
@@ -73,7 +73,7 @@ private extension Code {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "A=M-1".addNewLine() +
+        "A=A-1".addNewLine() +
         "M=M-D".addNewLine()
     }
 
@@ -87,13 +87,13 @@ private extension Code {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "A=M-1".addNewLine() +
+        "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
         "@EQUAL_TRUE".addNewLine() +
         "D;JEQ".addNewLine() +
         "D=0".addNewLine() +
         "@END_EQUAL".addNewLine() +
-        ";JMP".addNewLine() +
+        "0;JMP".addNewLine() +
         "(EQUAL_TRUE)".addNewLine() +
         "D=-1".addNewLine() +
         "(END_EQUAL)".addNewLine() +
@@ -106,13 +106,13 @@ private extension Code {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "A=M-1".addNewLine() +
+        "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
         "@GREATER_TRUE".addNewLine() +
         "D;JGT".addNewLine() +
         "D=0".addNewLine() +
         "@END_GREATER".addNewLine() +
-        ";JMP".addNewLine() +
+        "0;JMP".addNewLine() +
         "(GREATER_TRUE)".addNewLine() +
         "D=-1".addNewLine() +
         "(END_GREATER)".addNewLine() +
@@ -125,13 +125,13 @@ private extension Code {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "A=M-1".addNewLine() +
+        "A=A-1".addNewLine() +
         "D=M-D".addNewLine() +
         "@LESS_TRUE".addNewLine() +
         "D;JLT".addNewLine() +
         "D=0".addNewLine() +
         "@END_LESS".addNewLine() +
-        ";JMP".addNewLine() +
+        "0;JMP".addNewLine() +
         "(LESS_TRUE)".addNewLine() +
         "D=-1".addNewLine() +
         "(END_LESS)".addNewLine() +
@@ -144,7 +144,7 @@ private extension Code {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "A=M-1".addNewLine() +
+        "A=A-1".addNewLine() +
         "M=D&M".addNewLine()
     }
 
@@ -152,7 +152,7 @@ private extension Code {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "A=M-1".addNewLine() +
+        "A=A-1".addNewLine() +
         "M=D|M".addNewLine()
     }
 

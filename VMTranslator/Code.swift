@@ -304,7 +304,7 @@ private extension Code {
     
     func generatePushStatic(_ index: Int) -> String {
         "@\(prefix)" + "." + "\(index)".addNewLine() +
-        "D=A".addNewLine() +
+        "D=M".addNewLine() +
         generatePush()
     }
 

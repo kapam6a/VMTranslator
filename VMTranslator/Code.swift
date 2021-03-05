@@ -224,16 +224,12 @@ private extension Code {
     }
 
     func generatePopPointerThis() -> String {
-        "@THIS".addNewLine() +
-        "A=M".addNewLine() +
-        "D=M".addNewLine() +
+        "@R3".addNewLine() +
         generatePop()
     }
 
     func generatePopPointerThat() -> String {
-        "@THAT".addNewLine() +
-        "A=M".addNewLine() +
-        "D=M".addNewLine() +
+        "@R4".addNewLine() +
         generatePop()
     }
     
@@ -317,15 +313,13 @@ private extension Code {
     }
 
     func generatePushPointerThis() -> String {
-        "@THIS".addNewLine() +
-        "A=M".addNewLine() +
+        "@R3".addNewLine() +
         "D=M".addNewLine() +
         generatePush()
     }
 
     func generatePushPointerThat() -> String {
-        "@THAT".addNewLine() +
-        "A=M".addNewLine() +
+        "@R4".addNewLine() +
         "D=M".addNewLine() +
         generatePush()
     }

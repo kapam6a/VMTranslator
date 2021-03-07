@@ -32,12 +32,12 @@ private extension VMTranslator {
         case .c_arithmetic: return code.arithmetic(parser.arg1())
         case .c_push: return code.push(parser.arg1(), parser.arg2())
         case .c_pop: return code.pop(parser.arg1(), parser.arg2())
-        case .c_label: return ""
-        case .c_goto: return ""
-        case .c_if: return ""
-        case .c_function: return ""
-        case .c_return: return ""
-        case .c_call: return ""
+        case .c_label: return code.label(parser.arg1())
+        case .c_goto: return code.goTo(parser.arg1())
+        case .c_if: return code.if(parser.arg1())
+        case .c_function: return code.function(parser.arg1(), parser.arg2())
+        case .c_return: return code.return()
+        case .c_call: return code.call(parser.arg1(), parser.arg2())
         }
     }
 }

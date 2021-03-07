@@ -12,6 +12,56 @@ final class Code {
     init(_ prefix: String) {
         self.prefix = prefix
     }
+    
+    /*
+     Write the assembly instructions that effect the bootstrap code that initializes the VM.
+     This code must be placed at the beggining of generated *.asm file
+     */
+    func bootstrap() -> String {
+        ""
+    }
+    
+    /*
+     Write the assembly code that effects the label command
+     */
+    func label(_ value: String) -> String {
+        ""
+    }
+    
+    /*
+     Write the assembly code that effects the goto command
+     */
+    func goTo(_ value: String) -> String {
+        ""
+    }
+    
+    /*
+     Write the assembly code that effects the if-goto command
+     */
+    func `if`(_ value: String) -> String {
+        ""
+    }
+
+    /*
+     Write the assembly code that effects the function command
+     */
+    func function(_ name: String, _ numVars: Int) -> String {
+        ""
+    }
+    
+    /*
+     Write the assembly code that effects the call command
+     */
+    func call(_ name: String, _ numArgs: Int) -> String {
+        ""
+    }
+    
+    /*
+     Write the assembly code that effects the return command
+     */
+    func `return`() -> String {
+        ""
+    }
 
     /*
      Writes to the output file the assembly code that implemetns the given arithmetic command.

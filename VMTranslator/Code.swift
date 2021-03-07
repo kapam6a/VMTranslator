@@ -33,14 +33,18 @@ final class Code {
      */
     func goTo(_ value: String) -> String {
         "@\(value)".addNewLine() +
-        "0;JMP"
+        "0;JMP".addNewLine()
     }
     
     /*
      Write the assembly code that effects the if-goto command
      */
     func `if`(_ value: String) -> String {
-        ""
+        "@SP".addNewLine() +
+        "AM=M-1".addNewLine() +
+        "D=M".addNewLine() +
+        "@\(value)".addNewLine() +
+        "D;JNE".addNewLine()
     }
 
     /*

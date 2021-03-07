@@ -25,14 +25,14 @@ final class Code {
      Write the assembly code that effects the label command
      */
     func label(_ value: String) -> String {
-        "(\(value))".addNewLine()
+        "(\(prefix + "_" + value))".addNewLine()
     }
     
     /*
      Write the assembly code that effects the goto command
      */
     func goTo(_ value: String) -> String {
-        "@\(value)".addNewLine() +
+        "@\(prefix + "_" + value)".addNewLine() +
         "0;JMP".addNewLine()
     }
     
@@ -43,7 +43,7 @@ final class Code {
         "@SP".addNewLine() +
         "AM=M-1".addNewLine() +
         "D=M".addNewLine() +
-        "@\(value)".addNewLine() +
+        "@\(prefix + "_" + value)".addNewLine() +
         "D;JNE".addNewLine()
     }
 

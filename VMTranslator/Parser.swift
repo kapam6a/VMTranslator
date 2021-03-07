@@ -58,21 +58,21 @@ final class Parser {
      c_arethmetic is returned for all the arithmetic/logical commands.
      */
     func commandType() -> Command {
-        if currentCommand.contains("pop") {
+        if currentCommand.hasPrefix("pop") {
             return .c_pop
-        } else if currentCommand.contains("push") {
+        } else if currentCommand.hasPrefix("push") {
             return .c_push
-        } else if currentCommand.contains("label") {
+        } else if currentCommand.hasPrefix("label") {
             return .c_label
-        }  else if currentCommand.contains("goto") {
+        }  else if currentCommand.hasPrefix("goto") {
             return .c_goto
-        }  else if currentCommand.contains("if") {
+        }  else if currentCommand.hasPrefix("if") {
             return .c_if
-        } else if currentCommand.contains("function") {
+        } else if currentCommand.hasPrefix("function") {
             return .c_function
-        } else if currentCommand.contains("call") {
+        } else if currentCommand.hasPrefix("call") {
             return .c_call
-        } else if currentCommand.contains("return") {
+        } else if currentCommand.hasPrefix("return") {
             return .c_return
         } else {
             return .c_arithmetic

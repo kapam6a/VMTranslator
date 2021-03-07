@@ -85,7 +85,7 @@ final class Parser {
      Should not be called if the current command is c_return.
      */
     func arg1() -> String {
-        let components = currentCommand.components(separatedBy: " ")
+        let components = currentCommand.components(separatedBy: .whitespaces)
         if components.count == 1 {
             return components[0]
         } else {
@@ -98,7 +98,7 @@ final class Parser {
      Should be called if the current command is c_push, c_pop, c_function or c_call.
      */
     func arg2() -> Int {
-        let components = currentCommand.components(separatedBy: " ")
+        let components = currentCommand.components(separatedBy: .whitespaces)
         return Int(components[2])!
     }
 }

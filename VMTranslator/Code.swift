@@ -51,13 +51,23 @@ final class Code {
      Write the assembly code that effects the function command
      */
     func function(_ name: String, _ numVars: Int) -> String {
-        ""
+        (1...numVars).reduce("") { result, _ in
+            result +
+            "@0".addNewLine() +
+            "D=A".addNewLine() +
+            generatePush()
+        }
     }
     
     /*
      Write the assembly code that effects the call command
      */
     func call(_ name: String, _ numArgs: Int) -> String {
+        // ARG = SP
+        "@SP".addNewLine() +
+        "D=A".addNewLine() +
+        "@ARG".addNewLine() +
+        "M=D".addNewLine() +
         ""
     }
     
@@ -65,7 +75,60 @@ final class Code {
      Write the assembly code that effects the return command
      */
     func `return`() -> String {
-        ""
+        // Copies the return value onto argument 0
+        "@SP".addNewLine() +
+        "A=M-1".addNewLine() +
+        "D=M".addNewLine() +
+        "@ARG".addNewLine() +
+        "A=M".addNewLine() +
+        "M=D".addNewLine() +
+        // Sets SP for the caller
+        "@ARG".addNewLine() +
+        "D=M+1".addNewLine() +
+        "@SP".addNewLine() +
+        "M=D".addNewLine() +
+        // Restores the segment pointers of the caller
+        // Return address
+        "@5".addNewLine() +
+        "D=A".addNewLine() +
+        "@LCL".addNewLine() +
+        "A=M-D".addNewLine() +
+        "D=M".addNewLine() +
+        "@ret_address".addNewLine() +
+        "M=D".addNewLine() +
+        // THAT
+        "@LCL".addNewLine() +
+        "A=M-1".addNewLine() +
+        "D=M".addNewLine() +
+        "@THAT".addNewLine() +
+        "M=D".addNewLine() +
+        // THIS
+        "@2".addNewLine() +
+        "D=A".addNewLine() +
+        "@LCL".addNewLine() +
+        "A=M-D".addNewLine() +
+        "D=M".addNewLine() +
+        "@THIS".addNewLine() +
+        "M=D".addNewLine() +
+        // ARG
+        "@3".addNewLine() +
+        "D=A".addNewLine() +
+        "@LCL".addNewLine() +
+        "A=M-D".addNewLine() +
+        "D=M".addNewLine() +
+        "@ARG".addNewLine() +
+        "M=D".addNewLine() +
+        // LCL
+        "@4".addNewLine() +
+        "D=A".addNewLine() +
+        "@LCL".addNewLine() +
+        "A=M-D".addNewLine() +
+        "D=M".addNewLine() +
+        "@LCL".addNewLine() +
+        "M=D".addNewLine() +
+        // Jumps to the return address within the caller’s code
+        "@ret_address".addNewLine() +
+        "0;JMP".addNewLine()
     }
 
     /*

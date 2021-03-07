@@ -25,14 +25,15 @@ final class Code {
      Write the assembly code that effects the label command
      */
     func label(_ value: String) -> String {
-        "(" + value + ")".addNewLine()
+        "(\(value))".addNewLine()
     }
     
     /*
      Write the assembly code that effects the goto command
      */
     func goTo(_ value: String) -> String {
-        ""
+        "@\(value)".addNewLine() +
+        "0;JMP"
     }
     
     /*

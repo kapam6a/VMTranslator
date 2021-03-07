@@ -25,7 +25,7 @@ final class Code {
      Write the assembly code that effects the label command
      */
     func label(_ value: String) -> String {
-        ""
+        "(" + value + ")".addNewLine()
     }
     
     /*
